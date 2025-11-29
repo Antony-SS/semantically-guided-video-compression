@@ -1,0 +1,10 @@
+*.pyc
+__pycache__/
+*.egg-info/
+scripts/analysis_outputs
+scripts/extracted-datasets
+test_data/
+perception-stack/analysis-core/scripts/analysis_outputs/
+perception-stack/visualization/scripts/analysis_outputs/
+perception-stack/mapping/scripts/analysis_outputs/
+perception-stack/geometry/scripts/analysis_outputs/

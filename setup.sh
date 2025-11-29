@@ -45,6 +45,9 @@ fi
 
 # Install perception-stack packages as editable dependencies
 echo "Installing perception-stack packages..."
+if [ ! -d "perception-stack" ]; then
+    git clone https://github.com/Antony-SS/perception-stack.git
+fi
 python3 -m pip install -r requirements.txt
 
 # Install main project and all dependencies

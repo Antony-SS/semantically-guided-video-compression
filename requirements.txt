@@ -6,4 +6,8 @@
 -e ./perception-stack/data-streams
 -e ./perception-stack/ros-python-conversions
 -e ./perception-stack/analysis-core
+-e ./perception-stack/visualization
+-e ./perception-stack/mapping
+-e ./perception-stack/geometry
+
 
