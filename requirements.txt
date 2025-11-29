@@ -1,0 +1,9 @@
+# Editable installs for perception-stack packages
+# Install these with: pip install -r requirements-dev.txt
+# Order matters: install base packages first
+
+-e ./perception-stack/data-models
+-e ./perception-stack/data-streams
+-e ./perception-stack/ros-python-conversions
+-e ./perception-stack/analysis-core
+
