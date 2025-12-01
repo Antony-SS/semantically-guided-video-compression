@@ -1,4 +1,4 @@
-from visualization.trajectory_histogram import create_trajectory_histogram
+from visualization_helpers.trajectory_histogram import create_trajectory_histogram
 import argparse
 import os
 

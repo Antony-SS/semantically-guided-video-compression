@@ -1,17 +1,17 @@
-from visualization.frame_histogram import create_frame_histogram
+from visualization_helpers.fov_histogram import create_fov_histogram
 import argparse
 
 import argparse
 import os
 
 
-def run_create_capture_histogram(dataset_path : str, output_histogram_path : str, resolution : float = 0., exponential_scaling : bool = True, padding : float = 2.0) -> None:
+def run_create_fov_histogram(dataset_path : str, output_histogram_path : str, resolution : float = 0., exponential_scaling : bool = True, padding : float = 2.0) -> None:
 
     output_histogram_path = os.path.join(output_histogram_path, os.path.basename(dataset_path))
     if not os.path.exists(output_histogram_path):
         os.makedirs(output_histogram_path)
 
-    create_frame_histogram(dataset_path, os.path.join(output_histogram_path, f"capture_histogram_{resolution}_res.png"), resolution=resolution, exponential_scaling=exponential_scaling, padding=padding)
+    create_fov_histogram(dataset_path, os.path.join(output_histogram_path, f"fov_histogram_{resolution}_res.png"), resolution=resolution, exponential_scaling=exponential_scaling, padding=padding)
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -24,7 +24,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    run_create_capture_histogram(args.dataset_path, args.output_path, args.resolution, args.exponential_scaling, args.padding)
+    run_create_fov_histogram(args.dataset_path, args.output_path, args.resolution, args.exponential_scaling, args.padding)
 
 if __name__ == "__main__":
     main()

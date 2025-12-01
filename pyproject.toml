@@ -12,7 +12,11 @@ dependencies = [
     "ffmpeg-python>=0.2.0",
     "rosbags>=0.9.0",
     "opencv-python>=4.5.0",
-    "tqdm>=4.60.0"
+    "tqdm>=4.60.0",
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "clip @ git+https://github.com/openai/CLIP.git",
+    "scikit-learn>=1.0.0"
 ]
 
 [project.optional-dependencies]
