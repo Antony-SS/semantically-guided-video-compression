@@ -7,4 +7,5 @@ if __name__ == "__main__":
     parser.add_argument("--original_dataset_path", type=str, required=True)
     parser.add_argument("--compressed_dataset_path", type=str, required=True)
     args = parser.parse_args()
-    framewise_compression_ratio(args.original_dataset_path, args.compressed_dataset_path)
+    ratio = framewise_compression_ratio(args.original_dataset_path, args.compressed_dataset_path)
+    print(f"Framewise compression ratio: {ratio}")

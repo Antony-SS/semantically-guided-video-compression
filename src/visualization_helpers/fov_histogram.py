@@ -98,14 +98,18 @@ def create_fov_histogram(dataset_path : str,
     origin_idx = np.argmin(np.abs(x_edges - 0))
     origin_idy = np.argmin(np.abs(y_edges - 0))
 
-    clip_max = 1000
+    clip_max = max(histogram.max(), 1000)
     histogram = np.clip(histogram, 0, clip_max)
+
+    print(f"histogram max: {histogram.max()}, min: {histogram.min()}, clip_max: {clip_max}")
 
     if exponential_scaling:
         histogram = np.log(histogram + 1)
 
-    histogram = (histogram - np.min(histogram)) / (clip_max - np.min(histogram)) * 255
+    histogram = (histogram - np.min(histogram)) / (np.max(histogram) - np.min(histogram)) * 255
     histogram = histogram.astype(np.uint8)
+
+    print(f"histogram max: {histogram.max()}, min: {histogram.min()}")
 
     histo_image = cv2.applyColorMap(histogram, cv2.COLORMAP_JET)
     draw_origin_axes(histo_image, origin_idx, origin_idy, resolution)

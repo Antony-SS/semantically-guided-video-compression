@@ -4,9 +4,12 @@ import os
 
 
 def run_create_trajectory_histogram(dataset_path: str, output_path: str = "analysis_outputs/", robot_radius: float = 0.25, resolution: float = 0.05, padding: float = 2.0, exponential_scaling: bool = True, clip_max: float = 1000) -> None:
+    
+    output_path = os.path.join(output_path, os.path.basename(dataset_path))
     if not os.path.exists(output_path):
         os.makedirs(output_path)
-    output_path = os.path.join(output_path, os.path.basename(dataset_path), f"trajectory_histogram_{resolution}_res.png")
+    output_path = os.path.join(output_path, f"trajectory_histogram_{resolution}_res.png")
+    print(f"Creating trajectory histogram for dataset at {dataset_path} with output path {output_path}")
     create_trajectory_histogram(dataset_path, output_path, robot_radius, resolution, padding, exponential_scaling, clip_max)
 
 def parse_args():

@@ -2,6 +2,7 @@ from dataset_stream.dataset_stream import DatasetStream
 import numpy as np
 import cv2
 from visualization_helpers.fov_histogram import draw_origin_axes
+from tqdm import tqdm
 
 
 def create_trajectory_histogram(dataset_path : str, 
@@ -33,7 +34,7 @@ def create_trajectory_histogram(dataset_path : str,
 
     histogram = np.zeros((total_bins_x, total_bins_y))
 
-    for pose in poses:
+    for i, pose in tqdm(enumerate(poses), total=len(poses), desc="Creating trajectory histogram"):
         cam_x, cam_y = pose[0], pose[1]
         distance = np.sqrt((X_grid - cam_x)**2 + (Y_grid - cam_y)**2)
         within_radius = distance <= robot_radius
@@ -56,4 +57,5 @@ def create_trajectory_histogram(dataset_path : str,
 
     histo_image = cv2.applyColorMap(histogram, cv2.COLORMAP_JET)
     draw_origin_axes(histo_image, origin_idx, origin_idy, resolution)
+    print(f"Writing trajectory histogram to {output_histogram_path}")
     cv2.imwrite(output_histogram_path, histo_image)

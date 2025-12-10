@@ -4,7 +4,7 @@ import json
 import os
 
 
-def compare_geometric_coverage(original_dataset_path: str, compressed_dataset_path: str, xy_pose_resolution: float = 0.05, output_path: str = "evaluation_outputs/") -> float:
+def compare_geometric_coverage(original_dataset_path: str, compressed_dataset_path: str, xy_pose_resolution: float = 0.5, yaw_pose_resolution: float = 45.0, output_path: str = "evaluation_outputs/") -> float:
     """
     Compare the ratio between the geometric coverage of the original and compressed datasets.
     Geometric coverage is defined as the ratio of the number of bins covered by the original dataset to the number of bins covered by the compressed dataset.
@@ -19,6 +19,8 @@ def compare_geometric_coverage(original_dataset_path: str, compressed_dataset_pa
         The resolution of the xy poses.
     yaw_pose_resolution: float
         The resolution of the yaw poses.
+    output_path: str
+        The path to the output directory.
     Returns
     -------
     geometric_coverage_ratio: float
@@ -30,7 +32,7 @@ def compare_geometric_coverage(original_dataset_path: str, compressed_dataset_pa
     original_base_path = os.path.basename(original_dataset_path)
     compressed_base_path = os.path.basename(compressed_dataset_path)
 
-    output_dir = os.path.join(output_path, original_base_path, compressed_base_path, "geometric_coverage")
+    output_dir = os.path.join(output_path,f"{original_base_path}_vs_{compressed_base_path}", "geometric_coverage")
     
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -47,12 +49,11 @@ def compare_geometric_coverage(original_dataset_path: str, compressed_dataset_pa
 
     total_x_bins = int((max_x - min_x) / xy_pose_resolution)
     total_y_bins = int((max_y - min_y) / xy_pose_resolution)
+    total_yaw_bins = int(360 / yaw_pose_resolution)
  
     x_edges = np.linspace(min_x, max_x, total_x_bins + 1)
     y_edges = np.linspace(min_y, max_y, total_y_bins + 1)
-
-    # discretize yaw into 8 bins, consider all angles in a bin 'covered' if there exists one pose in that bin
-    yaw_edges = np.linspace(-180, 180, 8) # this is a good default
+    yaw_edges = np.linspace(-180, 180, total_yaw_bins + 1)
 
     # 3D histogram of poses, each bin is x,y,yaw, make them the same shape for comparison
     original_histogram = discretized_poses(original_poses, x_edges, y_edges, yaw_edges)
@@ -61,13 +62,14 @@ def compare_geometric_coverage(original_dataset_path: str, compressed_dataset_pa
     # compare coverage of original and compressed histograms
     original_coverage = np.sum(original_histogram > 0)
     compressed_coverage = np.sum(compressed_histogram > 0)
-    geometric_coverage_ratio = original_coverage / compressed_coverage
+    overall_geometric_coverage_ratio = compressed_coverage / original_coverage
 
     metrics = {
         "original_dataset_path": original_dataset_path,
         "compressed_dataset_path": compressed_dataset_path,
         "xy_pose_resolution": xy_pose_resolution,
-        "geometric_coverage_ratio": geometric_coverage_ratio,
+        "yaw_pose_resolution": yaw_pose_resolution,
+        "overall_geometric_coverage_ratio": overall_geometric_coverage_ratio,
     }
 
     log_metrics(metrics, os.path.join(output_dir, "metrics.json"))

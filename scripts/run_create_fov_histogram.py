@@ -5,7 +5,11 @@ import argparse
 import os
 
 
-def run_create_fov_histogram(dataset_path : str, output_histogram_path : str, resolution : float = 0., exponential_scaling : bool = True, padding : float = 2.0) -> None:
+def run_create_fov_histogram(dataset_path : str, 
+                             output_histogram_path : str, 
+                             resolution : float = 0.05, 
+                             exponential_scaling : bool = True, 
+                             padding : float = 2.0) -> None:
 
     output_histogram_path = os.path.join(output_histogram_path, os.path.basename(dataset_path))
     if not os.path.exists(output_histogram_path):
