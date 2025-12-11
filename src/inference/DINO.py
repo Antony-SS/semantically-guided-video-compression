@@ -20,13 +20,14 @@ def _load_dino_model():
     Returns
     -------
     model : torch.nn.Module
-        The DINO model (ViT-G/14)
+        The DINO model (ViT-L/14)
     preprocess : Callable
         Preprocessing function to use on images
     """
     device = _get_device()
     # Load DINOv2 model via torch.hub
-    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitg14')
+    print("Loading DINOv2 model (ViT-L/14)...")
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitl14', pretrained=True)
     model.eval()
     model.to(device)
     
